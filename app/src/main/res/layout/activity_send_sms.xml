@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/box_inset_layout_padding"
     android:orientation="vertical"
-    tools:context=".IdentityMessaging"
+    android:padding="@dimen/box_inset_layout_padding"
+    tools:context=".SendSMS"
     tools:deviceIds="wear">
 
 
@@ -13,21 +13,21 @@
         android:id="@+id/editTextPhone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:autofillHints="yes"
         android:ems="10"
         android:hint="@string/enter_recipient_number"
-        android:text="@string/testMobileNumber"
         android:inputType="phone"
-        android:autofillHints="yes" />
+        android:text="@string/testMobileNumber" />
 
     <EditText
         android:id="@+id/editTextTextPersonName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="@string/genie_command_time"
         android:hint="@string/hine_enter_your_message"
-        android:importantForAutofill="no" />
+        android:importantForAutofill="no"
+        android:inputType="textPersonName"
+        android:text="@string/genie_command_time" />
 
     <Button
         android:id="@+id/btnSend"

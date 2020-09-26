@@ -12,4 +12,45 @@
         android:layout_height="wrap_content"
         android:text="@string/send_message" />
 
+    <Button
+        android:id="@+id/btnCheckContact"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/check_contact" />
+
+
+    <LinearLayout
+        android:id="@+id/ltGetContactName"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="invisible">
+
+        <EditText
+            android:id="@+id/mobileNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/enter_recipient_number"
+            android:inputType="number"
+            android:autofillHints="" />
+
+        <Button
+            android:id="@+id/btnDisplayName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="@string/get_contact_display_name" />
+
+        <TextView
+            android:id="@+id/lblContactDisplayName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/contact_display_name" />
+
+
+    </LinearLayout>
+
+
 </LinearLayout>

@@ -1,3 +1,4 @@
+include ':contacttest'
 include ':readallsms'
 include ':app'
 rootProject.name = "Genie - My Assistant"

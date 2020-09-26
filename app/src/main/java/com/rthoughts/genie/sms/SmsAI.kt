@@ -10,8 +10,6 @@ class SmsAI(smsData: SmsData) : BaseActivity() {
     private var message: String = smsData.message.trim()
     private var fn = ""
 
-    //Genie send time
-    //val date = smsData.date
     private val suffix = "Genie"
 
     init {
@@ -22,17 +20,25 @@ class SmsAI(smsData: SmsData) : BaseActivity() {
             Log.println(Log.INFO, "AAAfnm", fn)
 
 
-            if (fn.contains("send time", ignoreCase = true)) {
-                Log.println(Log.INFO, "AAAs", "Genie sending sms")
-                val date = Date().toString()
-                Log.println(Log.INFO, "AAAd", date)
-                SmsUtils().sendSms(number, date)
-
-                Log.println(Log.INFO, "AAA", "Genie Command Processed")
-
-            } else {
-                Log.println(Log.INFO, "AAA", "Genie Command not proper")
-
+            when {
+                fn.contains("send time", ignoreCase = true) -> {
+                    Log.println(Log.INFO, "AAAs", "Genie sending sms")
+                    val date = Date().toString()
+                    Log.println(Log.INFO, "AAAd", date)
+                    SmsUtils().sendSms(number, date)
+                    Log.println(Log.INFO, "AAA", "Genie Send Time Command Processed")
+                }
+                fn.contains("send my name", ignoreCase = true) -> {
+                    var contactDisplayName = getContactDisplayNameByNumber(number)
+                    contactDisplayName =
+                        if (contactDisplayName.contains("NOT_FOUND")) "Hi, Sorry! I didn't save your number, I might missed your number!"
+                        else "Dinesh Kumar Saved your number as \"$contactDisplayName\""
+                    SmsUtils().sendSms(number, contactDisplayName)
+                    Log.println(Log.INFO, "AAA", "Genie Contact Name Command Processed")
+                }
+                else -> {
+                    Log.println(Log.INFO, "AAA", "Genie Command not proper")
+                }
             }
         } else {
             Log.println(Log.INFO, "AAA", "Genie Not Command")

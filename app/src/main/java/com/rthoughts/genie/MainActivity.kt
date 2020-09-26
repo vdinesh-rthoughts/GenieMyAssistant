@@ -1,11 +1,15 @@
 package com.rthoughts.genie
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
+import android.view.View
+import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -14,22 +18,48 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        smsPermissions(this)
-        requestContactPermission(this)
-
-        //smsSendPermission(this)
-        //smsReceivePermission(this)
-        //GeniePermissions().smsReceivePermission(this)
-        //GeniePermissions().smsSendPermission(this)
-        //GeniePermissions().smsPermissions(this)
 
         btnIM.setOnClickListener {
-            val intent = Intent(this, IdentityMessaging::class.java)
-            startActivity(intent)
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
+                val intent = Intent(this, SendSMS::class.java)
+                startActivity(intent)
+            } else {
+                smsPermissions(this)
+            }
+        }
+        btnCheckContact.setOnClickListener {
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
+                displayContactName()
+            } else {
+                requestContactPermission(this)
+            }
         }
 
-        //var tv = findViewById<TextView>(R.id.messageText)
+    }
 
+    private fun displayContactName() {
+        ltGetContactName.visibility = View.VISIBLE
+        mobileNumber.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(cs: CharSequence, arg1: Int, arg2: Int, arg3: Int) {
+                if (cs.isNotEmpty()) {
+                    btnDisplayName.isEnabled = true
+                }
+            }
+
+            override fun beforeTextChanged(arg0: CharSequence, arg1: Int, arg2: Int, arg3: Int) {
+            }
+
+            override fun afterTextChanged(arg0: Editable) {
+            }
+        })
+
+        btnDisplayName.setOnClickListener {
+            val number = mobileNumber.text.toString()
+            val displayName = getContactDisplayNameByNumber(number)
+            lblContactDisplayName.text = displayName
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -48,4 +78,3 @@ class MainActivity : BaseActivity() {
         }
     }
 }
-//8610456290

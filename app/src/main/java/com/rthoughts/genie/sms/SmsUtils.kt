@@ -1,6 +1,5 @@
 package com.rthoughts.genie.sms
 
-import android.content.Context
 import android.net.Uri
 import android.telephony.SmsManager
 import android.text.TextUtils

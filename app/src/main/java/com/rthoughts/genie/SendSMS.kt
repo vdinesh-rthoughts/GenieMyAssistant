@@ -6,15 +6,15 @@ import android.text.TextUtils
 import android.widget.Button
 import android.widget.Toast
 import com.rthoughts.genie.sms.SmsUtils
-import kotlinx.android.synthetic.main.activity_identity_messaging.*
+import kotlinx.android.synthetic.main.activity_send_sms.*
 
-class IdentityMessaging : BaseActivity() {
+class SendSMS : BaseActivity() {
 
     private val permissionRequest = 101
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_identity_messaging)
+        setContentView(R.layout.activity_send_sms)
         val send = findViewById<Button>(R.id.btnSend)
         send.setOnClickListener {
             myMessage()
@@ -29,8 +29,6 @@ class IdentityMessaging : BaseActivity() {
             Toast.makeText(this, "Field cannot be empty", Toast.LENGTH_SHORT).show()
         } else {
             if (TextUtils.isDigitsOnly(myNumber)) {
-                //val smsManager: SmsManager = SmsManager.getDefault()
-                //smsManager.sendTextMessage(myNumber, null, myMsg, null, null)
                 SmsUtils().sendSms(myNumber, myMsg)
                 Toast.makeText(this, "Message Sent", Toast.LENGTH_SHORT).show()
             } else {
@@ -39,14 +37,19 @@ class IdentityMessaging : BaseActivity() {
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == permissionRequest) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 myMessage()
             } else {
-                Toast.makeText(this, "You don't have required permission to send a message", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,
+                    "You don't have required permission to send a message",
+                    Toast.LENGTH_SHORT).show()
             }
         }
     }
+
 }

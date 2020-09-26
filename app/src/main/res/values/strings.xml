@@ -10,5 +10,8 @@
     <string name="hine_enter_your_message">Enter Your message</string>
     <string name="send_button_text">Send</string>
     <string name="send_message">Send Message</string>
+    <string name="check_contact">Check Contact</string>
+    <string name="get_contact_display_name">GET Contact Display name</string>
+    <string name="contact_display_name">Contact Display Name</string>
 
 </resources>

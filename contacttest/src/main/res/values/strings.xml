@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Contact Test</string>
+    <string name="load_all_contacts">Load All Contact</string>
+    <string name="add_contact">Add Contact</string>
+    <string name="update_contact">Update Contact</string>
+    <string name="delete_contact">Delete Contact</string>
+
+</resources>
