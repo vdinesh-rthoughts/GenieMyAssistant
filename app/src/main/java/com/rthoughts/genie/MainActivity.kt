@@ -57,7 +57,7 @@ class MainActivity : BaseActivity() {
 
         btnDisplayName.setOnClickListener {
             val number = mobileNumber.text.toString()
-            val displayName = getContactDisplayNameByNumber(number)
+            val displayName = getContactDisplayNameByNumber(contentResolver,number)
             lblContactDisplayName.text = displayName
         }
     }

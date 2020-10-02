@@ -17,14 +17,15 @@ class SmsReceiver : BroadcastReceiver() {
             val sms = bundle.get("pdus") as Array<*>
             for (i in sms.indices) {
                 val format = bundle.getString("format")
-                val smsMessage =
-                    SmsMessage.createFromPdu(sms[i] as ByteArray, format)
+                val smsMessage = SmsMessage.createFromPdu(sms[i] as ByteArray, format)
                 val phoneNumber = smsMessage.displayOriginatingAddress
                 val messageText = smsMessage.messageBody.toString()
                 val date = smsMessage.timestampMillis
                 val smsData = SmsData(phoneNumber, messageText, date)
-                SmsAI(smsData)
-                Toast.makeText(context, "phoneNumber: $phoneNumber\nmessageText: $messageText", Toast.LENGTH_LONG).show()
+                context?.contentResolver?.let { SmsAI(it, smsData) }
+                Toast.makeText(context,
+                    "phoneNumber: $phoneNumber\nmessageText: $messageText",
+                    Toast.LENGTH_LONG).show()
             }
         }
     }

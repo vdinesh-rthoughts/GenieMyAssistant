@@ -2,6 +2,7 @@ package com.rthoughts.genie
 
 import android.Manifest
 import android.app.Activity
+import android.content.ContentResolver
 import android.content.Context
 import android.content.pm.PackageManager
 import android.database.Cursor
@@ -45,8 +46,7 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     fun requestContactPermission(context: Context) {
-        if (ContextCompat.checkSelfPermission(context,
-                Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(context as Activity,
                 arrayOf(Manifest.permission.READ_CONTACTS),
                 PERMISSIONS_REQUEST_READ_CONTACTS)
@@ -93,7 +93,7 @@ open class BaseActivity : AppCompatActivity() {
     }
 
 
-    fun getContactDisplayNameByNumber(mobileNumber: String?): String {
+    fun getContactDisplayNameByNumber(mContentResolver: ContentResolver, mobileNumber: String?): String {
         var displayName = "NOT_FOUND"
         val dataContentUri: Uri = ContactsContract.Data.CONTENT_URI
         mobileNumber?.replace("+91", "")
@@ -101,7 +101,7 @@ open class BaseActivity : AppCompatActivity() {
             "mimetype='vnd.android.cursor.item/phone_v2' and replace(data1,' ','') like '%$mobileNumber%'"
         var cursor: Cursor? = null
         try {
-            cursor = contentResolver.query(dataContentUri, null, whereClause, null, null)
+            cursor = mContentResolver.query(dataContentUri, null, whereClause, null, null)
         } catch (e: Exception) {
             e.message?.let { Log.e("CCC", it) }
             e.printStackTrace()
