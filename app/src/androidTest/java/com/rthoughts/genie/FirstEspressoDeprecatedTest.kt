@@ -48,7 +48,7 @@ class FirstEspressoDeprecatedTest {
         onView(withId(R.id.editTextPhone)).perform(clearText()).perform(typeText("8124550344"))
         closeSoftKeyboard()
 
-        onView(withId(R.id.editTextTextPersonName)).perform(clearText())
+        onView(withId(R.id.editTextMessage)).perform(clearText())
             .perform(typeText("hi Espressso"))
         closeSoftKeyboard()
 

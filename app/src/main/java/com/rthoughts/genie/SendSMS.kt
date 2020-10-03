@@ -24,7 +24,7 @@ class SendSMS : BaseActivity() {
 
     private fun myMessage() {
         val myNumber: String = editTextPhone.text.toString().trim()
-        val myMsg: String = editTextTextPersonName.text.toString().trim()
+        val myMsg: String = editTextMessage.text.toString().trim()
         if (!(myNumber != "" && myMsg != "")) {
             Toast.makeText(this, "Field cannot be empty", Toast.LENGTH_SHORT).show()
         } else {
