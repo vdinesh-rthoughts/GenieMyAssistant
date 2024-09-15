@@ -1,6 +1,8 @@
 package com.rthoughts.contacttest
 
 import android.Manifest
+import android.annotation.SuppressLint
+import android.content.ContentValues.TAG
 import android.content.pm.PackageManager
 import android.database.Cursor
 import android.net.Uri
@@ -33,16 +35,19 @@ class MainActivity : AppCompatActivity() {
             } else {
                 getAllContacts()
                 myMethod()
-                Toast.makeText(this@MainActivity,
+                Toast.makeText(
+                    this@MainActivity,
                     "Contact data has been printed in the android monitor log..",
-                    Toast.LENGTH_SHORT).show()
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
 
+    @SuppressLint("Range")
     private fun myMethod(cursor: Cursor?, dataContentUri: Uri) {
         if (cursor != null) {
-            println("$dataContentUri: " + Arrays.toString(cursor.columnNames))
+            println("$dataContentUri: " + cursor.columnNames.contentToString())
             println("Cursor Size: " + cursor.count)
 
             if (cursor.moveToFirst()) {
@@ -58,13 +63,14 @@ class MainActivity : AppCompatActivity() {
         cursor?.close()
     }
 
+    @SuppressLint("Range")
     fun myMethod() {
         val dataContentUri: Uri = ContactsContract.Data.CONTENT_URI
         val whareClause =
             "mimetype='vnd.android.cursor.item/phone_v2' and replace(data1,' ','') like '%812450344%'"
         val cursor: Cursor? = contentResolver.query(dataContentUri, null, whareClause, null, null)
         if (cursor != null) {
-            println("$dataContentUri: " + Arrays.toString(cursor.columnNames))
+            println("$dataContentUri: " + cursor.columnNames.contentToString())
             println("Record count: " + cursor.count)
 
             var rowCount = 0
@@ -90,6 +96,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     /* Return all contacts and show each contact data in android monitor console as debug info. */
+    @SuppressLint("Range")
     private fun getAllContacts(): List<ContactDTO>? {
         val ret: List<ContactDTO> = ArrayList()
 
@@ -145,11 +152,13 @@ class MainActivity : AppCompatActivity() {
             Log.i("QUERY PARA Columns: ", queryColumnArr.contentToString())
             Log.i("QUERY PARA WhereClause: ", whereClauseBuf.toString())
 
-            val cursor: Cursor? = contentResolver.query(dataContentUri,
+            val cursor: Cursor? = contentResolver.query(
+                dataContentUri,
                 queryColumnArr,
                 whereClauseBuf.toString(),
                 null,
-                null)
+                null
+            )
             myMethod()
 
             /* If this cursor return database table row data.
@@ -180,8 +189,10 @@ class MainActivity : AppCompatActivity() {
                 } while (cursor.moveToNext())
                 Log.d(TAG_ANDROID_CONTACTS, lineBuf.toString())
             }
-            Log.d(TAG_ANDROID_CONTACTS,
-                "=========================================================================")
+            Log.d(
+                TAG_ANDROID_CONTACTS,
+                "========================================================================="
+            )
         }
         return ret
     }
@@ -208,9 +219,11 @@ class MainActivity : AppCompatActivity() {
             ContactsContract.CommonDataKinds.Phone.TYPE_HOME == dataType -> {
                 ret = "Home"
             }
+
             ContactsContract.CommonDataKinds.Phone.TYPE_WORK == dataType -> {
                 ret = "Work"
             }
+
             ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE == dataType -> {
                 ret = "Mobile"
             }
@@ -224,7 +237,8 @@ class MainActivity : AppCompatActivity() {
     *  such as Organization.CONTENT_ITEM_TYPE need return company, department, title, job description etc.
     *  So the return is a list string, each string for one column value.
     * */
-    private fun getColumnValueByMimetype(cursor: Cursor, mimeType: String): List<String> {
+    @SuppressLint("Range")
+    private fun     getColumnValueByMimetype(cursor: Cursor, mimeType: String): List<String> {
         val ret: MutableList<String> = ArrayList()
         when (mimeType) {
             ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE -> {
@@ -239,6 +253,7 @@ class MainActivity : AppCompatActivity() {
                 ret.add("Email Int Type : $emailType")
                 ret.add("Email String Type : $emailTypeStr")
             }
+
             ContactsContract.CommonDataKinds.Im.CONTENT_ITEM_TYPE -> {
                 // Im.PROTOCOL == data5
                 val imProtocol: String =
@@ -249,16 +264,20 @@ class MainActivity : AppCompatActivity() {
                 ret.add("IM Protocol : $imProtocol")
                 ret.add("IM ID : $imId")
             }
+
             ContactsContract.CommonDataKinds.Nickname.CONTENT_ITEM_TYPE -> {
                 // Nickname.NAME == data1
                 val nickName: String? =
                     cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Nickname.NAME))
                 ret.add("Nick name : $nickName")
             }
+
             ContactsContract.CommonDataKinds.Organization.CONTENT_ITEM_TYPE -> {
                 // Organization.COMPANY == data1
-                val company: String =
-                    cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Organization.COMPANY))
+                val index=cursor.getColumnIndex(ContactsContract.CommonDataKinds.Organization.COMPANY)
+                val company: String? =
+                    cursor.getString(index)
+                Log.i(TAG, "getColumnValueByMimetype data1: $company")
                 // Organization.DEPARTMENT == data5
                 val department: String? =
                     cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Organization.DEPARTMENT))
@@ -277,6 +296,7 @@ class MainActivity : AppCompatActivity() {
                 ret.add("Job Description : $jobDescription")
                 ret.add("Office Location : $officeLocation")
             }
+
             ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE -> {
                 // Phone.NUMBER == data1
                 val phoneNumber: String =
@@ -289,6 +309,7 @@ class MainActivity : AppCompatActivity() {
                 ret.add("Phone Type Integer : $phoneTypeInt")
                 ret.add("Phone Type String : $phoneTypeStr")
             }
+
             ContactsContract.CommonDataKinds.SipAddress.CONTENT_ITEM_TYPE -> {
                 // SipAddress.SIP_ADDRESS == data1
                 val address: String =
@@ -301,6 +322,7 @@ class MainActivity : AppCompatActivity() {
                 ret.add("Address Type Integer : $addressTypeInt")
                 ret.add("Address Type String : $addressTypeStr")
             }
+
             ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE -> {
                 // StructuredName.DISPLAY_NAME == data1
                 val displayName: String =
@@ -315,6 +337,7 @@ class MainActivity : AppCompatActivity() {
                 ret.add("Given Name : $givenName")
                 ret.add("Family Name : $familyName")
             }
+
             ContactsContract.CommonDataKinds.StructuredPostal.CONTENT_ITEM_TYPE -> {
                 // StructuredPostal.COUNTRY == data10
                 val country: String =
@@ -343,6 +366,7 @@ class MainActivity : AppCompatActivity() {
                 ret.add("Post Type Integer : $postType")
                 ret.add("Post Type String : $postTypeStr")
             }
+
             ContactsContract.CommonDataKinds.Identity.CONTENT_ITEM_TYPE -> {
                 // Identity.IDENTITY == data1
                 val identity: String =
@@ -369,6 +393,7 @@ class MainActivity : AppCompatActivity() {
                     cursor.getInt(cursor.getColumnIndex(ContactsContract.CommonDataKinds.GroupMembership.GROUP_ROW_ID))
                 ret.add("Group ID : $groupId")
             }
+
             ContactsContract.CommonDataKinds.Website.CONTENT_ITEM_TYPE -> {
                 // Website.URL == data1
                 val websiteUrl: String =
@@ -381,6 +406,7 @@ class MainActivity : AppCompatActivity() {
                 ret.add("Website Type Integer : $websiteTypeInt")
                 ret.add("Website Type String : $websiteTypeStr")
             }
+
             ContactsContract.CommonDataKinds.Note.CONTENT_ITEM_TYPE -> {
                 // Note.NOTE == data1
                 val note: String? =
@@ -402,8 +428,10 @@ class MainActivity : AppCompatActivity() {
         val queryColumnArr = arrayOf(ContactsContract.RawContacts._ID)
         // Query raw_contacts table and return raw_contacts table _id.
         val cursor: Cursor? = contentResolver.query(rawContactUri, queryColumnArr, null, null, null)
-        myMethod(contentResolver.query(rawContactUri, queryColumnArr, null, null, null),
-            rawContactUri)
+        myMethod(
+            contentResolver.query(rawContactUri, queryColumnArr, null, null, null),
+            rawContactUri
+        )
         if (cursor != null) {
             cursor.moveToFirst()
             do {
@@ -440,17 +468,21 @@ class MainActivity : AppCompatActivity() {
 
     // After user select Allow or Deny button in request runtime permission dialog
     // , this method will be invoked.
-    override fun onRequestPermissionsResult(requestCode: Int,
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
         permissions: Array<String?>,
-        grantResults: IntArray) {
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         val length = grantResults.size
         if (length > 0) {
             val grantResult = grantResults[0]
             if (grantResult == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(applicationContext,
+                Toast.makeText(
+                    applicationContext,
                     "You allowed permission, please click the button again.",
-                    Toast.LENGTH_LONG).show()
+                    Toast.LENGTH_LONG
+                ).show()
             } else {
                 Toast.makeText(applicationContext, "You denied permission.", Toast.LENGTH_LONG)
                     .show()
