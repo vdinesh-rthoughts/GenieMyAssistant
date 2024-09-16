@@ -25,7 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="@string/hine_enter_your_message"
+        android:hint="@string/hint_enter_your_message"
         android:importantForAutofill="no"
         android:inputType="textPersonName"
         android:text="@string/genie_command_time" />

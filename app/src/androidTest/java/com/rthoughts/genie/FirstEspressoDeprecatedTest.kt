@@ -9,7 +9,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import androidx.test.rule.GrantPermissionRule
 import androidx.test.runner.AndroidJUnit4
-import androidx.test.uiautomator.UiDevice
+
 import org.hamcrest.core.AllOf.allOf
 import org.junit.Rule
 import org.junit.Test
@@ -18,8 +18,8 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class FirstEspressoDeprecatedTest {
 
-    private val mUiDevice: UiDevice =
-        UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+    //private val mUiDevice: UiDevice =
+      //  UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
 
     @Rule
     @JvmField
@@ -64,7 +64,7 @@ class FirstEspressoDeprecatedTest {
         closeSoftKeyboard()
 
         onView(withId(R.id.btnDisplayName)).check(matches(isClickable())).perform(click())
-        mUiDevice.waitForIdle()
+        //mUiDevice.waitForIdle()
         onView(withId(R.id.lblContactDisplayName)).check(matches(withText("Dad")))
     }
 }

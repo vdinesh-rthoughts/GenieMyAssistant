@@ -10,40 +10,63 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.core.content.ContextCompat
+import com.rthoughts.genie.databinding.ActivityMainBinding
+import com.rthoughts.genie.sms.SmsAIActivity
 
 
 class MainActivity : BaseActivity() {
 
+    lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        btnIM.setOnClickListener {
-            if (ContextCompat.checkSelfPermission(this,
-                    Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
+        binding.btnIM.setOnClickListener {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.SEND_SMS
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
                 val intent = Intent(this, SendSMS::class.java)
                 startActivity(intent)
             } else {
                 smsPermissions(this)
             }
         }
-        btnCheckContact.setOnClickListener {
-            if (ContextCompat.checkSelfPermission(this,
-                    Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
+        binding.btnCheckContact.setOnClickListener {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.READ_CONTACTS
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
                 displayContactName()
             } else {
                 requestContactPermission(this)
             }
         }
 
+        binding.btnAISMS.setOnClickListener {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.SEND_SMS
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                val intent = Intent(this, SmsAIActivity::class.java)
+                startActivity(intent)
+            } else {
+                smsPermissions(this)
+            }
+        }
     }
 
     private fun displayContactName() {
-        ltGetContactName.visibility = View.VISIBLE
-        mobileNumber.addTextChangedListener(object : TextWatcher {
+        binding.ltGetContactName.visibility = View.VISIBLE
+        binding.mobileNumber.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(cs: CharSequence, arg1: Int, arg2: Int, arg3: Int) {
                 if (cs.isNotEmpty()) {
-                    btnDisplayName.isEnabled = true
+                    binding.btnDisplayName.isEnabled = true
                 }
             }
 
@@ -54,10 +77,10 @@ class MainActivity : BaseActivity() {
             }
         })
 
-        btnDisplayName.setOnClickListener {
-            val number = mobileNumber.text.toString()
-            val displayName = getContactDisplayNameByNumber(contentResolver,number)
-            lblContactDisplayName.text = displayName
+        binding.btnDisplayName.setOnClickListener {
+            val number = binding.mobileNumber.text.toString()
+            val displayName = getContactDisplayNameByNumber(contentResolver, number)
+            binding.lblContactDisplayName.text = displayName
         }
     }
 

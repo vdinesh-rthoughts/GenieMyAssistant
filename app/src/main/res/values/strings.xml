@@ -7,11 +7,16 @@
     <string name="enter_recipient_number">Enter recipient number</string>
     <string name="testMobileNumber">8124550344</string>
     <string name="genie_command_time">Genie send time</string>
-    <string name="hine_enter_your_message">Enter Your message</string>
+    <string name="hint_enter_your_message">Enter Your message</string>
     <string name="send_button_text">Send</string>
     <string name="send_message">Send Message</string>
     <string name="check_contact">Check Contact</string>
+    <string name="smsAI">SMS AI</string>
     <string name="get_contact_display_name">GET Contact Display name</string>
     <string name="contact_display_name">Contact Display Name</string>
+    <string name="number_dk">8124550344</string>
+    <string name="number_rajiv">9718597715</string>
+    <string name="number_asha">8861833410</string>
+    <string name="number_dilkush">8210112699</string>
 
 </resources>

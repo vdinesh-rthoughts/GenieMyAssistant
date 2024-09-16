@@ -1,6 +1,7 @@
 package com.rthoughts.genie
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ContentResolver
 import android.content.Context
@@ -22,10 +23,10 @@ open class BaseActivity : AppCompatActivity() {
     private val PERMISSIONS_REQUEST_SMS = 101
 
     fun smsPermissions(context: Context) {
-        val send_sms = Manifest.permission.SEND_SMS
-        val read_sms = Manifest.permission.READ_SMS
-        val receive_sms = Manifest.permission.RECEIVE_SMS
-        val permissionsNeeded = arrayOf(send_sms, receive_sms, read_sms)
+        val sendSms = Manifest.permission.SEND_SMS
+        val readSms = Manifest.permission.READ_SMS
+        val receiveSms = Manifest.permission.RECEIVE_SMS
+        val permissionsNeeded = arrayOf(sendSms, receiveSms, readSms)
 
         val permissionSendCheck =
             ContextCompat.checkSelfPermission(context, Manifest.permission.SEND_SMS)
@@ -33,9 +34,11 @@ open class BaseActivity : AppCompatActivity() {
             ContextCompat.checkSelfPermission(context, Manifest.permission.RECEIVE_SMS)
         val permissionReadCheck =
             ContextCompat.checkSelfPermission(context, Manifest.permission.READ_SMS)
-        Log.println(Log.INFO,
+        Log.println(
+            Log.INFO,
             "PPP",
-            "RECEIVE_SMS: $permissionReceiveCheck; SEND_SMS: $permissionSendCheck; READ_SMS: $permissionReadCheck")
+            "RECEIVE_SMS: $permissionReceiveCheck; SEND_SMS: $permissionSendCheck; READ_SMS: $permissionReadCheck"
+        )
 
         if (permissionSendCheck == PackageManager.PERMISSION_GRANTED) {
             Log.println(Log.INFO, "PPP", "Permission Granted for SEND_SMS")
@@ -46,38 +49,54 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     fun requestContactPermission(context: Context) {
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(context as Activity,
+        if (ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.READ_CONTACTS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            requestPermissions(
+                context as Activity,
                 arrayOf(Manifest.permission.READ_CONTACTS),
-                PERMISSIONS_REQUEST_READ_CONTACTS)
+                PERMISSIONS_REQUEST_READ_CONTACTS
+            )
         } else {
             Toast.makeText(this, "Contact Permission already granted", Toast.LENGTH_LONG).show()
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int,
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
         permissions: Array<String>,
-        grantResults: IntArray) {
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        Log.println(Log.INFO,
+        Log.println(
+            Log.INFO,
             "PPP",
-            "ON_Requesting_Permissions : $requestCode : ${permissions.size} : ${grantResults.size}")
+            "ON_Requesting_Permissions : $requestCode : ${permissions.size} : ${grantResults.size}"
+        )
         if (requestCode == PERMISSIONS_REQUEST_SMS) {
             for (i in 0..grantResults.size) {
                 if (grantResults.size > i) {
                     if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
-                        Log.println(Log.INFO,
+                        Log.println(
+                            Log.INFO,
                             "PPP",
-                            "User given Permission Granded for ${permissions[i]}")
+                            "User given Permission Granded for ${permissions[i]}"
+                        )
                     } else {
-                        Log.println(Log.INFO,
+                        Log.println(
+                            Log.INFO,
                             "PPP",
-                            "User reject Permission Granded for ${permissions[i]}")
+                            "User reject Permission Granded for ${permissions[i]}"
+                        )
                     }
                     val permissionCheck = ContextCompat.checkSelfPermission(this, permissions[i])
-                    Log.println(Log.INFO,
+                    Log.println(
+                        Log.INFO,
                         "PPP",
-                        "Permission sms send after: $permissions[i] $permissionCheck")
+                        "Permission sms send after: $permissions[i] $permissionCheck"
+                    )
                 }
 
             }
@@ -93,7 +112,11 @@ open class BaseActivity : AppCompatActivity() {
     }
 
 
-    fun getContactDisplayNameByNumber(mContentResolver: ContentResolver, mobileNumber: String?): String {
+    @SuppressLint("Range")
+    fun getContactDisplayNameByNumber(
+        mContentResolver: ContentResolver,
+        mobileNumber: String?
+    ): String {
         var displayName = "NOT_FOUND"
         val dataContentUri: Uri = ContactsContract.Data.CONTENT_URI
         mobileNumber?.replace("+91", "")
