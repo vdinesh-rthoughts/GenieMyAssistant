@@ -28,12 +28,24 @@ class SmsAIActivity : AppCompatActivity() {
             insets
         }
 
-        binding.btnReceiver.setOnClickListener {
+        binding.btnOgMsgReceiver.setOnClickListener {
             val selected = binding.forwardList.checkedRadioButtonId
             selectRadio = findViewById(selected)
             selectedNumber = selectRadio.hint.toString()
-            SharedData.receiver=selectedNumber
-            SharedData.smsAIFlag=true
+            SharedData.receiver = selectedNumber
+            SharedData.smsAIFlag = true
+            SharedData.forwardOriginalMessage = true
+            SharedData.forwardForwardedMessage = false
+        }
+
+        binding.btnFwdMsgReceiver.setOnClickListener {
+            val selected = binding.forwardList.checkedRadioButtonId
+            selectRadio = findViewById(selected)
+            selectedNumber = selectRadio.hint.toString()
+            SharedData.receiver = selectedNumber
+            SharedData.smsAIFlag = true
+            SharedData.forwardOriginalMessage = false
+            SharedData.forwardForwardedMessage = true
         }
     }
 }

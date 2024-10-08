@@ -3,6 +3,7 @@ package com.rthoughts.genie.sms
 import android.content.ContentResolver
 import android.util.Log
 import com.rthoughts.genie.BaseActivity
+import com.rthoughts.genie.SharedData
 import java.util.*
 
 class SmsAI(mContentResolver: ContentResolver, smsData: SmsData) : BaseActivity() {
@@ -14,6 +15,7 @@ class SmsAI(mContentResolver: ContentResolver, smsData: SmsData) : BaseActivity(
 
     private val suffix = "Genie"
     private val lbgOtp = "Use passcode"
+    private val lbgForwardOtp = "Forwarded_1: Use passcode"
 
     init {
         if (message.startsWith(suffix)) {
@@ -55,8 +57,13 @@ class SmsAI(mContentResolver: ContentResolver, smsData: SmsData) : BaseActivity(
                     Log.println(Log.INFO, "AAA", "Genie Command not proper")
                 }
             }
-        } else if (message.startsWith(lbgOtp)) {
-            SmsUtils().sendSms(receiver, "Forwarded $message")
+        } else if (message.startsWith(lbgOtp) && SharedData.forwardOriginalMessage) {
+            SmsUtils().sendSms(receiver, "Forwarded_1: $message")
+        } else if (message.startsWith(lbgForwardOtp) && SharedData.forwardForwardedMessage) {
+            SmsUtils().sendSms(
+                receiver,
+                "${message.replace("Forwarded_1", "Forwarded_2")}."
+            )
         } else {
             Log.println(Log.INFO, "AAA", "Genie Not Command")
         }

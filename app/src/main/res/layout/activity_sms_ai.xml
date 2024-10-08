@@ -12,7 +12,8 @@
         android:id="@+id/forwardList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:background="@color/cardview_light_background">
 
         <TextView
             android:id="@+id/textView"
@@ -42,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="@string/number_asha"
+            android:hint="@string/number_asha_ltc"
             android:text="Asha" />
 
         <RadioButton
@@ -53,13 +54,38 @@
             android:hint="@string/number_dilkush"
             android:text="Dilkush" />
 
+        <RadioButton
+            android:id="@+id/navaneethan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/number_navaneethan"
+            android:text="Navaneethan" />
+
+        <RadioButton
+            android:id="@+id/asha_yella"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/number_asha_yella"
+            android:text="Asha Yella" />
     </RadioGroup>
 
     <Button
-        android:id="@+id/btnReceiver"
+        android:id="@+id/btnOgMsgReceiver"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Set Receiver" />
+        android:textColor="@color/cardview_light_background"
+        android:backgroundTint="@color/colorPrimary"
+        android:text="Set Original Message Receiver" />
+
+    <Button
+        android:id="@+id/btnFwdMsgReceiver"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:backgroundTint="@color/design_default_color_secondary_variant"
+        android:text="Set Forwarded Message Receiver" />
 
 </LinearLayout>
