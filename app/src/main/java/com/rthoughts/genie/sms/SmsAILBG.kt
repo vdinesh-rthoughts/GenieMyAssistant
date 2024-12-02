@@ -6,7 +6,7 @@ import com.rthoughts.genie.BaseActivity
 import com.rthoughts.genie.SharedData
 import java.util.*
 
-class SmsAI(mContentResolver: ContentResolver, smsData: SmsData) : BaseActivity() {
+class SmsAILBG(mContentResolver: ContentResolver, smsData: SmsData) : BaseActivity() {
 
     private val number = smsData.senderNumber
     private var message: String = smsData.message.trim()
@@ -16,6 +16,10 @@ class SmsAI(mContentResolver: ContentResolver, smsData: SmsData) : BaseActivity(
     private val suffix = "Genie"
     private val lbgOtp = "Use passcode"
     private val lbgForwardOtp = "Forwarded_1: Use passcode"
+    private val da1JourneyOTP = "To continue with your"
+    private val da1JourneyForwardOTP = "Forwarded_1: To continue with your"
+    private val o4bTempPwd = "Welcome to"
+    private val o4bTempPwdFwd = "Forwarded_1: Welcome to"
 
     init {
         if (message.startsWith(suffix)) {
@@ -57,9 +61,26 @@ class SmsAI(mContentResolver: ContentResolver, smsData: SmsData) : BaseActivity(
                     Log.println(Log.INFO, "AAA", "Genie Command not proper")
                 }
             }
-        } else if (message.startsWith(lbgOtp) && SharedData.forwardOriginalMessage) {
+        } else if ((message.startsWith(lbgOtp) || message.startsWith(o4bTempPwd) || message.startsWith(
+                da1JourneyOTP
+            )) && SharedData.forwardOriginalMessage
+        ) {
             SmsUtils().sendSms(receiver, "Forwarded_1: $message")
-        } else if (message.startsWith(lbgForwardOtp) && SharedData.forwardForwardedMessage) {
+
+            /*val whatsAppIntent = Intent(Intent.ACTION_SEND)
+            whatsAppIntent.type = "text/plain"
+            whatsAppIntent.putExtra(Intent.EXTRA_TEXT, message)
+            whatsAppIntent.setPackage("com.whatsapp")
+            try {
+                this.startActivity(whatsAppIntent)
+            } catch (e: Exception) {
+                Toast.makeText(this, "WhatsApp is not installed", Toast.LENGTH_SHORT).show()
+            }*/
+
+        } else if ((message.startsWith(lbgForwardOtp) || message.startsWith(o4bTempPwdFwd) || message.startsWith(
+                da1JourneyForwardOTP
+            )) && SharedData.forwardForwardedMessage
+        ) {
             SmsUtils().sendSms(
                 receiver,
                 "${message.replace("Forwarded_1", "Forwarded_2")}."

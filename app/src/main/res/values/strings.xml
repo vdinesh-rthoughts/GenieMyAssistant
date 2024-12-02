@@ -11,7 +11,7 @@
     <string name="send_button_text">Send</string>
     <string name="send_message">Send Message</string>
     <string name="check_contact">Check Contact</string>
-    <string name="smsAI">SMS AI</string>
+    <string name="smsLBG">Forward LBG SMS</string>
     <string name="get_contact_display_name">GET Contact Display name</string>
     <string name="contact_display_name">Contact Display Name</string>
     <string name="number_dk">8124550344</string>
@@ -20,5 +20,6 @@
     <string name="number_dilkush">8210112699</string>
     <string name="number_navaneethan">9789593101</string>
     <string name="number_asha_yella">9342449680</string>
+    <string name="number_neha_shah">7984051040</string>
 
 </resources>

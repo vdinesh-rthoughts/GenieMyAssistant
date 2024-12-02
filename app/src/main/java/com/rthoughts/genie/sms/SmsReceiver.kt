@@ -3,7 +3,6 @@ package com.rthoughts.genie.sms
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.telephony.SmsMessage
 import android.util.Log
 import android.widget.Toast
@@ -32,7 +31,7 @@ class SmsReceiver : BroadcastReceiver() {
                             SharedData.receiver
                         ) else SmsData(phoneNumber, messageText, date)
                     context?.contentResolver?.let {
-                        SmsAI(it, smsData)
+                        SmsAILBG(it, smsData)
                     }
                     Toast.makeText(
                         context,

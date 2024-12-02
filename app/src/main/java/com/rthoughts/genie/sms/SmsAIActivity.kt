@@ -2,24 +2,23 @@ package com.rthoughts.genie.sms
 
 import android.os.Bundle
 import android.widget.RadioButton
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.rthoughts.genie.R
 import com.rthoughts.genie.SharedData
-import com.rthoughts.genie.databinding.ActivitySmsAiBinding
+import com.rthoughts.genie.databinding.ActivitySmsAiLbgBinding
 
 class SmsAIActivity : AppCompatActivity() {
 
-    lateinit var binding: ActivitySmsAiBinding
+    lateinit var binding: ActivitySmsAiLbgBinding
     lateinit var selectRadio: RadioButton
     lateinit var selectedNumber: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivitySmsAiBinding.inflate(layoutInflater)
+        binding = ActivitySmsAiLbgBinding.inflate(layoutInflater)
         enableEdgeToEdge()
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
