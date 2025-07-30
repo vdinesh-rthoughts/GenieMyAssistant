@@ -6,5 +6,6 @@ class SharedData {
         var forwardOriginalMessage = false;
         var forwardForwardedMessage = false;
         lateinit var receiver: String
+        lateinit var currentSenderName: String
     }
 }

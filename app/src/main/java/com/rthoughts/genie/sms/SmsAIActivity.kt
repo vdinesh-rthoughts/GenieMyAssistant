@@ -31,6 +31,7 @@ class SmsAIActivity : AppCompatActivity() {
             val selected = binding.forwardList.checkedRadioButtonId
             selectRadio = findViewById(selected)
             selectedNumber = selectRadio.hint.toString()
+            SharedData.currentSenderName= binding.editName?.text.toString()
             SharedData.receiver = selectedNumber
             SharedData.smsAIFlag = true
             SharedData.forwardOriginalMessage = true

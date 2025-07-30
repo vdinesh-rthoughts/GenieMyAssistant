@@ -26,7 +26,7 @@ class SmsUtils : BaseActivity() {
                 smsManager.sendTextMessage(toNumber1, null, message, null, null)
                 Log.println(Log.INFO, "SSS", "Message send successfully $message to $toNumber")
             } else {
-                Log.println(Log.INFO,
+                Log.println(Log.ERROR,
                     "SSSException",
                     "Message NOT successfully $message to $toNumber")
             }

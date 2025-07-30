@@ -1,6 +1,7 @@
 package com.rthoughts.genie.sms
 
 import android.content.ContentResolver
+import android.content.ContentValues.TAG
 import android.util.Log
 import com.rthoughts.genie.BaseActivity
 import com.rthoughts.genie.SharedData
@@ -63,9 +64,20 @@ class SmsAILBG(mContentResolver: ContentResolver, smsData: SmsData) : BaseActivi
             }
         } else if ((message.startsWith(lbgOtp) || message.startsWith(o4bTempPwd) || message.startsWith(
                 da1JourneyOTP
-            )) && SharedData.forwardOriginalMessage
+            )
+                    ) && SharedData.forwardOriginalMessage
         ) {
-            SmsUtils().sendSms(receiver, "Forwarded_1: $message")
+            val messageToTeams =
+                ("From : $number, \n Receiver : ${SharedData.currentSenderName}, \nMessage : $message").toString()
+            var status: String = "Not Executed"
+            val webhookUrl =
+                "https://publicisgroupe.webhook.office.com/webhookb2/20285aaf-368e-4020-860e-a25bdd4300ba@d52c9ea1-7c21-47b1-82a3-33a74b1f74b8/IncomingWebhook/896163d37d514f27927d7303e4924737/391c4278-7b91-4b82-a2f5-7a36eaaf864f/V2rvf2mnDXqN_ajS0xy-dKrBsG969NqHPBm4CrSUJf2Tw1"
+            sendMessageToTeams(webhookUrl, messageToTeams) { success ->
+                status = if (success) "✅ Message sent!" else "❌ Failed to send."
+            }
+            Log.i(TAG, "Team Message Status: $status")
+            if (receiver != "TEAMS")
+                SmsUtils().sendSms(receiver, "Forwarded_1: $message")
 
             /*val whatsAppIntent = Intent(Intent.ACTION_SEND)
             whatsAppIntent.type = "text/plain"

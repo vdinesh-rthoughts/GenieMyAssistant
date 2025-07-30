@@ -24,12 +24,14 @@ class SmsReceiver : BroadcastReceiver() {
                     val messageText = smsMessage.messageBody.toString()
                     val date = smsMessage.timestampMillis
                     val smsData =
-                        if (SharedData.receiver.isNotEmpty()) SmsData(
-                            phoneNumber,
-                            messageText,
-                            date,
-                            SharedData.receiver
-                        ) else SmsData(phoneNumber, messageText, date)
+                        if (SharedData.receiver.isNotEmpty())
+                            SmsData(
+                                phoneNumber,
+                                messageText,
+                                date,
+                                SharedData.receiver
+                            )
+                        else SmsData(phoneNumber, messageText, date)
                     context?.contentResolver?.let {
                         SmsAILBG(it, smsData)
                     }
